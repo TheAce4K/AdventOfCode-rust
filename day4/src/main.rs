@@ -1,7 +1,8 @@
+#![warn(clippy::pedantic)]
 use std::fs::read_to_string;
 
-fn part1(input: &String) -> u32 {
-    input.split_terminator("\n").map(|line| {
+fn part1(input: &str) -> u32 {
+    input.split_terminator('\n').map(|line| {
         match line.split(|c| c == ',' || c == '-').map(|bounds| {
             bounds.parse::<u32>().expect("cant convert to u32")
         }).collect::<Vec<u32>>() {
@@ -13,8 +14,8 @@ fn part1(input: &String) -> u32 {
 }
 
 
-fn part2(input: &String) -> u32 {
-    input.split_terminator("\n").map(|line| {
+fn part2(input: &str) -> u32 {
+    input.split_terminator('\n').map(|line| {
         match line.split(|c| c == ',' || c == '-').map(|bounds| {
             bounds.parse::<u32>().expect("cant convert to u32")
         }).collect::<Vec<u32>>() {
@@ -34,5 +35,4 @@ fn main() {
     let data: String = read_to_string(filename).expect("File not found");
     println!("Sum of full overlap: {}", part1(&data));
     println!("Sum of overlap: {}", part2(&data));
-    
 }

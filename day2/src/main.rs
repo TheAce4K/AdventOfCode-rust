@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic)]
+
 use std::str::FromStr;
 use std::fs::File;
 use std::io::BufReader;

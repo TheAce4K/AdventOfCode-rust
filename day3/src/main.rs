@@ -1,3 +1,4 @@
+#![warn(clippy::pedantic)]
 use std::fs::read_to_string;
 
 
@@ -9,14 +10,14 @@ fn find_value(c: char) -> u32 {
     }
 }
 
-fn part1(input: &String) -> u32 {
-    input.split_terminator("\n").map(|line| {
+fn part1(input: &str) -> u32 {
+    input.split_terminator('\n').map(|line| {
         let matched_char: char = line[0..line.len()].chars().find(|c| line[line.len()/2..].contains(*c)).unwrap();
         find_value(matched_char) 
     }).sum::<u32>()
 }
-fn part2(input: &String) -> u32 {
-    let lines: Vec<&str> = input.split_terminator("\n").collect::<Vec<&str>>();
+fn part2(input: &str) -> u32 {
+    let lines: Vec<&str> = input.split_terminator('\n').collect::<Vec<&str>>();
     let mut sum: u32 = 0;
     for line in 0..lines.len()/3 {
         let matched_char: char = lines[line*3].chars().find(|c| lines[line*3+1].contains(*c) && lines[line*3+2].contains(*c)).unwrap();
