@@ -1,9 +1,7 @@
-use std::fs::read_to_string;
+use std::{fs::read_to_string, time::Instant};
 
-fn main() {
-    println!("Hello, world!");
-    let filename = "input.txt";
-    let data: &str = &read_to_string(filename).expect("File not found");
+
+fn part1(data: &str) -> u32 {
     let line_len = data.lines().count();
     // part 1 
     // time compexity according to my calculations if n is number of trees then we
@@ -49,18 +47,23 @@ fn main() {
             false => 0,
         }
     }).sum::<u32>()).sum();
-    println!("trees visible: {}", trees_visible);
+    trees_visible
+}
+
+
+fn part2(data: &str) -> usize {
     // let n be number of trees. then time complexity is O(nlog(n)) if we assume that search is
     // log(n). I feel like there is a better algorithm for this? Memory complexity O(n^2) since im
     // storing the input in matrix. if we could find a solution without this we would have O(1) 
     // memory complexity but dont know how to loop vertically over string with lines.
+    let line_len = data.lines().count();
     let mut map = vec![vec!['0'; line_len]; line_len];
     for (i, line) in data.lines().enumerate() {
         for (j, c) in line.chars().enumerate() {
             map[j][i] = c;
         }
     }
-    let mut running_rating_max = 0;
+    let mut running_rating_max: usize = 0;
     for (i, line) in data.lines().enumerate() {
         for (j, c) in line.chars().enumerate() {
             let left = vec![line[..j].chars().rev().position(|x| x >= c), Some(line[..j].len()) ];
@@ -78,5 +81,20 @@ fn main() {
             if rating > running_rating_max { running_rating_max = rating; }
         }
     }
-    println!("running max rating: {}", running_rating_max)
+    running_rating_max
+}
+
+fn main() {
+    println!("Hello, world!");
+    let filename = "input.txt";
+    let data: &str = &read_to_string(filename).expect("File not found");
+    let t0 = Instant::now();
+    let trees_visible = part1(data);
+    let t1 = Instant::now();
+    println!("trees visible: {}", trees_visible);
+    let t2 = Instant::now();
+    let running_rating_max = part2(data);  
+    let t3 = Instant::now();
+    println!("running max rating: {}", running_rating_max);
+    println!("First part took: {:?}, Second part took: {:?}", t1.duration_since(t0), t3.duration_since(t2))
 }
