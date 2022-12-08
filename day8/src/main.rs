@@ -5,6 +5,12 @@ fn main() {
     let filename = "input.txt";
     let data: &str = &read_to_string(filename).expect("File not found");
     let line_len = data.lines().count();
+    // part 1 
+    // time compexity according to my calculations if n is number of trees then we
+    // loop through each element 2 times for part 1 so O(2n) = O(n)
+    // if we say that n is the size of one side of the grid then solution is O(n^2)
+    // memmory is same as time complexity since i save the result in a matrix. 
+    // Memory complexity could be improved
     let mut visible: Vec<Vec<bool>> = vec![vec![false; line_len]; line_len];
     let mut row_high: char;
     let mut col_high: Vec<char> = vec!['0'; line_len]; 
@@ -44,13 +50,17 @@ fn main() {
         }
     }).sum::<u32>()).sum();
     println!("trees visible: {}", trees_visible);
+    // let n be number of trees. then time complexity is O(nlog(n)) if we assume that search is
+    // log(n). I feel like there is a better algorithm for this? Memory complexity O(n^2) since im
+    // storing the input in matrix. if we could find a solution without this we would have O(1) 
+    // memory complexity but dont know how to loop vertically over string with lines.
     let mut map = vec![vec!['0'; line_len]; line_len];
     for (i, line) in data.lines().enumerate() {
         for (j, c) in line.chars().enumerate() {
             map[j][i] = c;
         }
     }
-    let mut ratings = vec![vec![0; line_len]; line_len];
+    let mut running_rating_max = 0;
     for (i, line) in data.lines().enumerate() {
         for (j, c) in line.chars().enumerate() {
             let left = vec![line[..j].chars().rev().position(|x| x >= c), Some(line[..j].len()) ];
@@ -65,9 +75,8 @@ fn main() {
                     x[1].unwrap()
                 }
             }).product();
-            ratings[i][j] = rating;
+            if rating > running_rating_max { running_rating_max = rating; }
         }
     }
-    let max_rating = ratings.iter().map(|i| i.iter().max().unwrap()).max().unwrap();
-    println!("max rating: {}", max_rating)
+    println!("running max rating: {}", running_rating_max)
 }
