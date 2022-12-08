@@ -31,4 +31,5 @@ fn main() {
     println!("Top values part 1: {:?}", stacks1.iter().map(|stack| stack.last().expect("stack empty")).collect::<Vec<&&str>>());
 
     println!("Top values part 2: {:?}", stacks2.iter().map(|stack| stack.last().expect("stack empty")).collect::<Vec<&&str>>());
+    
 }
